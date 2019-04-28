@@ -8,17 +8,21 @@
   <link rel="dns-prefetch" href="https://github.com/singcl">
   <title>Singcl的笔记</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="使用 git 时候，经常会发现，不知不觉就创建了大量的分支。那么，麻烦事就来了，如此多废弃的分支，该怎么办呢？总不能一个一个执行 git branch -D branchName 删除吧！下面提供一种批量删除分支的方法: 1git branch |grep &apos;branchName&apos; |xargs git branch -D 这是通过 shell 管道命令来实现的批量删除分支的功能 git bran">
+  <meta name="description" content="nodejs 查询日志基本操作">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Singcl的笔记">
-<meta property="og:url" content="https://github.com/singcl/2019/04/28/git批量删除分支/index.html">
+<meta property="og:url" content="https://github.com/singcl/2019/04/28/nodejs_查看日志基本操作/index.html">
 <meta property="og:site_name" content="Singcl的笔记">
-<meta property="og:description" content="使用 git 时候，经常会发现，不知不觉就创建了大量的分支。那么，麻烦事就来了，如此多废弃的分支，该怎么办呢？总不能一个一个执行 git branch -D branchName 删除吧！下面提供一种批量删除分支的方法: 1git branch |grep &apos;branchName&apos; |xargs git branch -D 这是通过 shell 管道命令来实现的批量删除分支的功能 git bran">
+<meta property="og:description" content="nodejs 查询日志基本操作">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-04-28T11:20:32.597Z">
+<meta property="og:image" content="https://github.com/singcl/2019/04/28/images/tail_grep_看图王.jpg">
+<meta property="og:image" content="https://github.com/singcl/2019/04/28/images/tail_grep_2_看图王.jpg">
+<meta property="og:image" content="https://github.com/singcl/2019/04/28/images/tail_grep3_看图王.jpg">
+<meta property="og:updated_time" content="2019-04-28T11:55:52.721Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Singcl的笔记">
-<meta name="twitter:description" content="使用 git 时候，经常会发现，不知不觉就创建了大量的分支。那么，麻烦事就来了，如此多废弃的分支，该怎么办呢？总不能一个一个执行 git branch -D branchName 删除吧！下面提供一种批量删除分支的方法: 1git branch |grep &apos;branchName&apos; |xargs git branch -D 这是通过 shell 管道命令来实现的批量删除分支的功能 git bran">
+<meta name="twitter:description" content="nodejs 查询日志基本操作">
+<meta name="twitter:image" content="https://github.com/singcl/2019/04/28/images/tail_grep_看图王.jpg">
   
     <link rel="alternative" href="/atom.xml" title="Singcl的笔记" type="application/atom+xml">
   
@@ -154,20 +158,12 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-git批量删除分支" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-nodejs_查看日志基本操作" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>使用 git 时候，经常会发现，不知不觉就创建了大量的分支。那么，麻烦事就来了，如此多废弃的分支，该怎么办呢？<br>总不能一个一个执行 <code>git branch -D branchName</code> 删除吧！<br>下面提供一种批量删除分支的方法:</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch |grep 'branchName' |xargs git branch -D</span><br></pre></td></tr></table></figure>
-<p>这是通过 shell 管道命令来实现的批量删除分支的功能</p>
-<p>git branch 输出当前分支列表</p>
-<p>grep 是对 git branch 的输出结果进行匹配，匹配值当然就是 branchName</p>
-<p>xargs 的作用是将参数列表转换成小块分段传递给其他命令</p>
-<p>因此，这条命令的意思就是:</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">从分支列表中匹配到指定分支，然后一个一个(分成小块)传递给删除分支的命令，最后进行删除。</span><br></pre></td></tr></table></figure>
-<p><em>注：. 可以表示所有文件</em></p>
+        <h1 id="nodejs-查询日志基本操作"><a href="#nodejs-查询日志基本操作" class="headerlink" title="nodejs 查询日志基本操作"></a>nodejs 查询日志基本操作</h1><p><img src="./../images/tail_grep_看图王.jpg" alt="tail"><br><img src="./../images/tail_grep_2_看图王.jpg" alt="tail"><br><img src="./../images/tail_grep3_看图王.jpg" alt="tail"></p>
 
       
 
@@ -247,7 +243,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=https://github.com/singcl/2019/04/28/git批量删除分支/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=https://github.com/singcl/2019/04/28/nodejs_查看日志基本操作/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -261,18 +257,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2019/04/28/nodejs_查看日志基本操作/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          (no title)
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/04/28/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Hello World</div>
+    <a href="/2019/04/28/git批量删除分支/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title"></div>
       <i class="icon-circle-right"></i>
     </a>
   
