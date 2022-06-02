@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>
+        Singcl的笔记
+    </title>
+    <link rel="stylesheet" href="/libs/highlight/styles/monokai-sublime.css">
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body id="bodyx">
+    <div class="relation-link">
+      <a href="https://github.com/singcl" title="https://github.com/singcl">
+        <img src="/images/Aquicon-Github-small.png" alt="https://github.com/singcl" srcset="" />
+      </a>
+      <a href="mailto:iambabyer@gmail.com" title="iambabyer@gmail.com">
+        <img src="/images/email-small.png" alt="iambabyer@gmail.com" srcset="" />
+      </a>
+    </div>
+    <div class="hd posts">
+    <a href="/index.html"><i class="fa fa-reply replay-btn" aria-hidden="true"></i></a>
+    <div class="post-title">
+        <p>
+            for await of
+        </p>
+        <hr>
+    </div>
+    <div class="post-content">
+        <h3 id="给对象部署异步-同步迭代接口"><a href="#给对象部署异步-同步迭代接口" class="headerlink" title="给对象部署异步/同步迭代接口"></a>给对象部署异步/同步迭代接口</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">(<span class="keyword">async</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> singcl = &#123;</span><br><span class="line">        [<span class="built_in">Symbol</span>.asyncIterator]: <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">const</span> items = [<span class="string">`s`</span>, <span class="string">`i`</span>, <span class="string">`n`</span>, <span class="string">`g`</span>, <span class="string">`c`</span>, <span class="string">`l`</span>];</span><br><span class="line">            <span class="keyword">return</span> &#123;</span><br><span class="line">                next: <span class="function"><span class="params">()</span> =&gt;</span></span><br><span class="line">                    <span class="built_in">Promise</span>.resolve(&#123;</span><br><span class="line">                        done: items.length === <span class="number">0</span>,</span><br><span class="line">                        value: items.shift()</span><br><span class="line">                    &#125;)</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;,</span><br><span class="line"></span><br><span class="line">        [<span class="built_in">Symbol</span>.iterator]: <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">const</span> items = [<span class="string">`s`</span>, <span class="string">`i`</span>, <span class="string">`n`</span>, <span class="string">`g`</span>, <span class="string">`c`</span>, <span class="string">`l`</span>, <span class="built_in">Promise</span>.resolve(<span class="number">3</span>)];</span><br><span class="line">            <span class="keyword">return</span> &#123;</span><br><span class="line">                next: <span class="function"><span class="params">()</span> =&gt;</span> (&#123;</span><br><span class="line">                    done: items.length === <span class="number">0</span>,</span><br><span class="line">                    value: items.shift()</span><br><span class="line">                &#125;)</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">for</span> <span class="keyword">await</span> (<span class="keyword">let</span> v <span class="keyword">of</span> singcl) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(v);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+<h3 id="测试结果"><a href="#测试结果" class="headerlink" title="测试结果"></a>测试结果</h3><h5 id="使用-for-await-of-迭代对象时："><a href="#使用-for-await-of-迭代对象时：" class="headerlink" title="使用 for-await-of 迭代对象时："></a>使用 for-await-of 迭代对象时：</h5><ul>
+<li>概念：异步迭代接口: <code>[Symbol.asyncIterator]</code></li>
+<li>同步迭代结构<code>[Symbol.iterator]</code></li>
+<li>同步迭代对象 <code>iterator</code></li>
+<li>异步迭代对象 <code>asyncIterator</code></li>
+<li>迭代结果：<code>iterationResult</code></li>
+</ul>
+<ol>
+<li>同步迭代对象的 next 方法返回的是 iterationResult, 异步迭代对象 next 方法返回的 Promise <iterationresult></iterationresult></li>
+<li>对象同时部署异步迭代接口和同步迭代接口时优先调用异步迭代接口</li>
+<li>当没有部署异步迭代接口时，for-await-of 会调用同步迭代接口</li>
+<li>当调用同步迭代接口时，next 方法会自动把结果包装成 Promise 对象，同时如果 next 返回的对象的 value 值是 Promise,则取 Promise 的结果作为最终 value</li>
+<li>当调用异步迭代接口时，如果 next 返回的不是 Promise，会自动把结果包装成 Promise 对象，此时如果 next 返回的对象的 value 值是 Promise,则不会做任何处理</li>
+</ol>
+
+    </div>
+
+    
+</div> <div class="footer" id="footer">
+    <p>Copyright©2022 <a class="flink" href="https://hexo.io">Hexo </a>Powered by <a class="flink" href="https://github.com/sanjinhub/hexo-theme-geek">Geek</a>.
+        <label class="el-switch el-switch-green el-switch-sm" style="vertical-align: sub;">
+            <input type="checkbox" name="switch" id="update_style">
+            <span class="el-switch-style"></span>
+        </label>
+<!--         <script type="text/javascript">
+        var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+        document.write(unescape("%3Cspan id='cnzz_stat_icon_1278548644'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "v1.cnzz.com/stat.php%3Fid%3D1278548644%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+        </script> -->
+    </p>
+</div>
+<input type="hidden" id="web_style" value="white">
+<input type="hidden" id="valine_appid" value="CmCti21ooOOIzFOhEyFkFvR0-gzGzoHsz">
+<input type="hidden" id="valine_appKey" value="FqiyUqbg7McKN2eG0MCewupf">
+<script src="/libs/jquery.min.js"></script>
+<script src="/libs/highlight/highlight.pack.js"></script>
+<script src="/libs/gwm.umd.js"></script>
+<script src='//cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+<script src="/js/js.js"></script>
+<style type="text/css">
+.v * {
+    color: #698fca;
+}
+
+.v .vlist .vcard .vhead .vsys {
+    color: #3a3e4a;
+}
+
+.v .vlist .vcard .vh .vmeta .vat {
+    color: #638fd5;
+}
+
+.v .vlist .vcard .vhead .vnick {
+    color: #6ba1ff;
+}
+
+.v a {
+    color: #8696b1;
+}
+
+.v .vlist .vcard .vhead .vnick:hover {
+    color: #669bfc;
+}
+</style>
+  </body>
+</html>

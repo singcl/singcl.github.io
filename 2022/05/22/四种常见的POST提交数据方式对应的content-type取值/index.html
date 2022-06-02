@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>
+        Singcl的笔记
+    </title>
+    <link rel="stylesheet" href="/libs/highlight/styles/monokai-sublime.css">
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body id="bodyx">
+    <div class="relation-link">
+      <a href="https://github.com/singcl" title="https://github.com/singcl">
+        <img src="/images/Aquicon-Github-small.png" alt="https://github.com/singcl" srcset="" />
+      </a>
+      <a href="mailto:iambabyer@gmail.com" title="iambabyer@gmail.com">
+        <img src="/images/email-small.png" alt="iambabyer@gmail.com" srcset="" />
+      </a>
+    </div>
+    <div class="hd posts">
+    <a href="/index.html"><i class="fa fa-reply replay-btn" aria-hidden="true"></i></a>
+    <div class="post-title">
+        <p>
+            四种常见POST提交数据方式对应的Content-type取值
+        </p>
+        <hr>
+    </div>
+    <div class="post-content">
+        <h3 id="application-x-www-form-urlencoded"><a href="#application-x-www-form-urlencoded" class="headerlink" title="application/x-www-form-urlencoded"></a>application/x-www-form-urlencoded</h3><p>这应该是最常见的 <code>POST</code> 提交数据的方式了。浏览器的原生 <code>form</code> 表单，如果不设置 <code>enctype</code> 属性，那么最终就会以 <code>application/x-www-form-urlencoded</code> 方式提交数据。请求类似于下面这样（无关的请求头在本文中都省略掉了）：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">POST http:<span class="comment">//www.example.com HTTP/1.1 </span></span><br><span class="line">Content-Type: application/x-www-form-urlencoded;charset=utf-<span class="number">8</span> </span><br><span class="line">title=test&amp;sub%<span class="number">5</span>B%<span class="number">5</span>D=<span class="number">1</span>&amp;sub%<span class="number">5</span>B%<span class="number">5</span>D=<span class="number">2</span>&amp;sub%<span class="number">5</span>B%<span class="number">5</span>D=<span class="number">3</span></span><br></pre></td></tr></table></figure></p>
+<p>首先，<code>Content-Type</code> 被指定为 <code>application/x-www-form-urlencoded</code>；其次，提交的数据按照 <code>key1=val1&amp;key2=val2</code> 的方式进行编码，<code>key</code> 和<code>val</code> 都进行了 <code>URL</code> 转码。大部分服务端语言都对这种方式有很好的支持。<br>很多时候，我们用 <code>Ajax</code> 提交数据时，也是使用这种方式。例如 <code>JQuery</code>的 <code>Ajax</code>，<code>Content-Type</code> 默认值都是<code>application/x-www-form-urlencoded;charset=utf-8</code></p>
+<h3 id="multipart-form-data"><a href="#multipart-form-data" class="headerlink" title="multipart/form-data"></a>multipart/form-data</h3><p>这又是一个常见的 POST 数据提交的方式。我们使用表单上传文件时，必须让 <code>form</code> 的 <code>enctyped</code> 等于这个值。直接来看一个请求示例：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">POST http:<span class="comment">//www.example.com HTTP/1.1 </span></span><br><span class="line">Content-Type:multipart/form-data; boundary=----WebKitFormBoundaryrGKCBY7qhFd3TrwA </span><br><span class="line"></span><br><span class="line">------WebKitFormBoundaryrGKCBY7qhFd3TrwA </span><br><span class="line">Content-Disposition: form-data; name=<span class="string">"text"</span> </span><br><span class="line"></span><br><span class="line">title </span><br><span class="line">------WebKitFormBoundaryrGKCBY7qhFd3TrwA </span><br><span class="line">Content-Disposition: form-data; name=<span class="string">"file"</span>; filename=<span class="string">"chrome.png"</span> </span><br><span class="line">Content-Type: image/png </span><br><span class="line"></span><br><span class="line">PNG ... content of chrome.png ... </span><br><span class="line">------WebKitFormBoundaryrGKCBY7qhFd3TrwA--</span><br></pre></td></tr></table></figure></p>
+<p>这个例子稍微复杂点。首先生成了一个 <code>boundary</code> 用于分割不同的字段，为了避免与正文内容重复，<code>boundary</code> 很长很复杂。然后 <code>Content-Type</code> 里指明了数据是以 <code>mutipart/form-data</code> 来编码，本次请求的<code>boundary</code> 是什么内容。消息主体里按照字段个数又分为多个结构类似的部分，每部分都是以 <code>--boundary</code> 开始，紧接着内容描述信息，然后是回车，最后是字段具体内容（文本或二进制）。如果传输的是文件，还要包含文件名和文件类型信息。消息主体最后以 <code>--boundary--</code> 标示结束。关于 <code>mutipart/form-data</code> 的详细定义，请前往 <code>rfc1867</code> 查看。 </p>
+<p>这种方式一般用来上传文件，各大服务端语言对它也有着良好的支持。 </p>
+<p>上面提到的这两种 <code>POST</code> 数据的方式，都是浏览器原生支持的，而且现阶段原生 <code>form</code> 表单也只支持这两种方式。但是随着越来越多的 <code>Web</code> 站点，尤其是 <code>WebApp</code>，全部使用 <code>Ajax</code>进行数据交互之后，我们完全可以定义新的数据提交方式，给开发带来更多便利。 </p>
+<h3 id="application-json"><a href="#application-json" class="headerlink" title="application/json"></a>application/json</h3><p><code>application/json</code> 这个 <code>Content-Type</code> 作为响应头大家肯定不陌生。实际上，现在越来越多的人把它作为请求头，用来告诉服务端消息主体是序列化后的 <code>JSON</code> 字符串。由于 <code>JSON</code> 规范的流行，除了低版本 IE 之外的各大浏览器都原生支持 <code>JSON.stringify</code>，服务端语言也都有处理 <code>JSON</code> 的函数，使用 <code>JSON</code> 不会遇上什么麻烦。 </p>
+<p><code>JSON</code> 格式支持比键值对复杂得多的结构化数据，这一点也很有用。记得我几年前做一个项目时，需要提交的数据层次非常深，我就是把数据 <code>JSON</code> 序列化之后来提交的。不过当时我是把 <code>JSON</code> 字符串作为<code>val</code>，仍然放在键值对里，以<code>x-www-form-urlencoded</code> 方式提交。 </p>
+<p><code>Google</code> 的 <code>AngularJS</code> 中的 <code>Ajax</code> 功能，默认就是提交 <code>JSON</code> 字符串。例如下面这段代码： </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> data = &#123;<span class="string">'title'</span>:<span class="string">'test'</span>, <span class="string">'sub'</span> : [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]&#125;; </span><br><span class="line">$http.post(url, data).success(<span class="function"><span class="keyword">function</span>(<span class="params">result</span>) </span>&#123; </span><br><span class="line">    ... </span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>最终发送的请求是：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">POST http:<span class="comment">//www.example.com HTTP/1.1 </span></span><br><span class="line">Content-Type: application/json;charset=utf-<span class="number">8</span> </span><br><span class="line"></span><br><span class="line">&#123;<span class="string">"title"</span>:<span class="string">"test"</span>,<span class="string">"sub"</span>:[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这种方案，可以方便的提交复杂的结构化数据，特别适合 <code>RESTful</code> 的接口。各大抓包工具如 <code>Chrome</code> 自带的开发者工具、<code>Firebug</code>、<code>Fiddler</code>，都会以树形结构展示 <code>JSON</code> 数据，非常友好。但也有些服务端语言还没有支持这种方式，例如 php 就无法通过 <code>$_POST</code> 对象从上面的请求中获得内容。这时候，需要自己动手处理下：在请求头中 Content-Type 为 <code>application/json</code> 时，从<code>php://input</code> 里获得原始输入流，再 <code>json_decode</code> 成对象。一些 <code>php</code> 框架已经开始这么做了。 </p>
+<p>当然 <code>AngularJ</code>S 也可以配置为使用 <code>x-www-form-urlencoded</code> 方式提交数据。如有需要，可以参考这篇文章。 </p>
+<h3 id="text-xml"><a href="#text-xml" class="headerlink" title="text/xml"></a>text/xml</h3><p>我的博客之前提到过 <code>XML-RPC（XML Remote Procedure Call）</code>。它是一种使用 <code>HTTP</code> 作为传输协议，<code>XML</code> 作为编码方式的远程调用规范。典型的<code>XML-RPC</code> 请求是这样的： </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">POST http://www.example.com HTTP/1.1 </span><br><span class="line">Content-Type: text/xml </span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--?xml version="1.0"?--&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">methodcall</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">methodname</span>&gt;</span>examples.getStateName<span class="tag">&lt;/<span class="name">methodname</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">params</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">param</span>&gt;</span> </span><br><span class="line">            <span class="tag">&lt;<span class="name">value</span>&gt;</span><span class="tag">&lt;<span class="name">i4</span>&gt;</span>41<span class="tag">&lt;/<span class="name">i4</span>&gt;</span><span class="tag">&lt;/<span class="name">value</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;/<span class="name">params</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">methodcall</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><code>XML-RP</code>C 协议简单、功能够用，各种语言的实现都有。它的使用也很广泛，如 <code>WordPress</code> 的 <code>XML-RPC Api</code>，搜索引擎的 ping 服务等等。<code>JavaScrip</code>t 中，也有现成的库支持以这种方式进行数据交互，能很好的支持已有的 <code>XML-RPC</code> 服务。不过，我个人觉得 XML 结构还是过于臃肿，一般场景用 <code>JSON</code> 会更灵活方便。 </p>
+
+    </div>
+
+    
+</div> <div class="footer" id="footer">
+    <p>Copyright©2022 <a class="flink" href="https://hexo.io">Hexo </a>Powered by <a class="flink" href="https://github.com/sanjinhub/hexo-theme-geek">Geek</a>.
+        <label class="el-switch el-switch-green el-switch-sm" style="vertical-align: sub;">
+            <input type="checkbox" name="switch" id="update_style">
+            <span class="el-switch-style"></span>
+        </label>
+<!--         <script type="text/javascript">
+        var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+        document.write(unescape("%3Cspan id='cnzz_stat_icon_1278548644'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "v1.cnzz.com/stat.php%3Fid%3D1278548644%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+        </script> -->
+    </p>
+</div>
+<input type="hidden" id="web_style" value="white">
+<input type="hidden" id="valine_appid" value="CmCti21ooOOIzFOhEyFkFvR0-gzGzoHsz">
+<input type="hidden" id="valine_appKey" value="FqiyUqbg7McKN2eG0MCewupf">
+<script src="/libs/jquery.min.js"></script>
+<script src="/libs/highlight/highlight.pack.js"></script>
+<script src="/libs/gwm.umd.js"></script>
+<script src='//cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+<script src="/js/js.js"></script>
+<style type="text/css">
+.v * {
+    color: #698fca;
+}
+
+.v .vlist .vcard .vhead .vsys {
+    color: #3a3e4a;
+}
+
+.v .vlist .vcard .vh .vmeta .vat {
+    color: #638fd5;
+}
+
+.v .vlist .vcard .vhead .vnick {
+    color: #6ba1ff;
+}
+
+.v a {
+    color: #8696b1;
+}
+
+.v .vlist .vcard .vhead .vnick:hover {
+    color: #669bfc;
+}
+</style>
+  </body>
+</html>
