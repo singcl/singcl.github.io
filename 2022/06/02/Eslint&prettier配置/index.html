@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>
+        Singcl的笔记
+    </title>
+    <link rel="stylesheet" href="/libs/highlight/styles/monokai-sublime.css">
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body id="bodyx">
+    <div class="relation-link">
+      <a href="https://github.com/singcl" title="https://github.com/singcl">
+        <img src="/images/Aquicon-Github-small.png" alt="https://github.com/singcl" srcset="" />
+      </a>
+      <a href="mailto:iambabyer@gmail.com" title="iambabyer@gmail.com">
+        <img src="/images/email-small.png" alt="iambabyer@gmail.com" srcset="" />
+      </a>
+    </div>
+    <div class="hd posts">
+    <a href="/index.html"><i class="fa fa-reply replay-btn" aria-hidden="true"></i></a>
+    <div class="post-title">
+        <p>
+            Eslint&amp;prettier 配置
+        </p>
+        <hr>
+    </div>
+    <div class="post-content">
+        <p><a href="http://commitizen.github.io/cz-cli/" target="_blank" rel="noopener"><img src="https://img.shields.io/badge/commitizen-friendly-brightgreen.svg" alt="Commitizen friendly"></a></p>
+<h2 id="Eslint"><a href="#Eslint" class="headerlink" title="Eslint"></a>Eslint</h2><p>项目配置完整的 eslint 检查，prettier 格式化规则，并且相互兼容。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ESLint 检查 .vue 文件需要单独配置编辑器：</span></span><br><span class="line"><span class="comment">// https://eslint.vuejs.org/user-guide/#editor-integrations</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    root: <span class="literal">true</span>,</span><br><span class="line"></span><br><span class="line">    extends: [</span><br><span class="line">        <span class="comment">// lint vue 文件</span></span><br><span class="line">        <span class="comment">// eslint-config-taro配置包中没有引入依赖eslint-plugin-vue</span></span><br><span class="line">        <span class="comment">// 所以需要项目安装eslint-plugin-vue</span></span><br><span class="line">        <span class="string">'taro/vue3'</span>,</span><br><span class="line">        <span class="comment">// eslint 集成prettier 规则，</span></span><br><span class="line">        <span class="comment">// 需要先安装</span></span><br><span class="line">        <span class="comment">// eslint-config-prettier</span></span><br><span class="line">        <span class="comment">// eslint-plugin-prettier</span></span><br><span class="line">        <span class="comment">// 1. disabled掉eslint中和prettier想冲突的规则</span></span><br><span class="line">        <span class="comment">// 2. 实时以eslint 提示的方式显示prettier规则</span></span><br><span class="line">        <span class="comment">// @see https://github.com/prettier/eslint-plugin-prettier</span></span><br><span class="line">        <span class="string">'plugin:prettier/recommended'</span></span><br><span class="line">    ],</span><br><span class="line">    rules: &#123;&#125;,</span><br><span class="line">    <span class="comment">// 方式一：</span></span><br><span class="line">    <span class="comment">// lint js?(x) ts?(x)文件</span></span><br><span class="line">    <span class="comment">// eslint-config-taro 没有引入相关依赖</span></span><br><span class="line">    <span class="comment">// 需要项目单独安装：</span></span><br><span class="line">    <span class="comment">// "eslint-plugin-import": "^2.26.0",</span></span><br><span class="line">    <span class="comment">// "eslint-plugin-react": "^7.30.0",</span></span><br><span class="line">    <span class="comment">// "eslint-plugin-react-hooks": "^4.5.0",</span></span><br><span class="line">    <span class="comment">// glob functionally: https://github.com/isaacs/node-glob</span></span><br><span class="line">    overrides: [&#123; <span class="attr">files</span>: [<span class="string">'**/*.js?(x)'</span>, <span class="string">'**/*.ts?(x)'</span>], <span class="attr">extends</span>: [<span class="string">'taro'</span>] &#125;]</span><br><span class="line">    <span class="comment">// 方式二：</span></span><br><span class="line">    <span class="comment">// 不使用taro配置包，自定义lint ts文件</span></span><br><span class="line">    <span class="comment">// overrides: [</span></span><br><span class="line">    <span class="comment">//   &#123;</span></span><br><span class="line">    <span class="comment">//     files: ["src/**/*.ts"],</span></span><br><span class="line">    <span class="comment">//     parserOptions: &#123;</span></span><br><span class="line">    <span class="comment">//       tsconfigRootDir: __dirname,</span></span><br><span class="line">    <span class="comment">//       project: ["./tsconfig.json"],</span></span><br><span class="line">    <span class="comment">//       extraFileExtensions: [".vue"],</span></span><br><span class="line">    <span class="comment">//     &#125;,</span></span><br><span class="line">    <span class="comment">//     parser: "@typescript-eslint/parser",</span></span><br><span class="line">    <span class="comment">//     plugins: ["@typescript-eslint"],</span></span><br><span class="line">    <span class="comment">//     extends: [</span></span><br><span class="line">    <span class="comment">//       "eslint:recommended",</span></span><br><span class="line">    <span class="comment">//       "plugin:@typescript-eslint/recommended",</span></span><br><span class="line">    <span class="comment">//       "plugin:@typescript-eslint/recommended-requiring-type-checking",</span></span><br><span class="line">    <span class="comment">//     ],</span></span><br><span class="line">    <span class="comment">//     excludedFiles: "*.test.ts",</span></span><br><span class="line">    <span class="comment">//   &#125;,</span></span><br><span class="line">    <span class="comment">// ],</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+</div> <div class="footer" id="footer">
+    <p>Copyright©2022 <a class="flink" href="https://hexo.io">Hexo </a>Powered by <a class="flink" href="https://github.com/sanjinhub/hexo-theme-geek">Geek</a>.
+        <label class="el-switch el-switch-green el-switch-sm" style="vertical-align: sub;">
+            <input type="checkbox" name="switch" id="update_style">
+            <span class="el-switch-style"></span>
+        </label>
+<!--         <script type="text/javascript">
+        var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+        document.write(unescape("%3Cspan id='cnzz_stat_icon_1278548644'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "v1.cnzz.com/stat.php%3Fid%3D1278548644%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+        </script> -->
+    </p>
+</div>
+<input type="hidden" id="web_style" value="white">
+<input type="hidden" id="valine_appid" value="CmCti21ooOOIzFOhEyFkFvR0-gzGzoHsz">
+<input type="hidden" id="valine_appKey" value="FqiyUqbg7McKN2eG0MCewupf">
+<script src="/libs/jquery.min.js"></script>
+<script src="/libs/highlight/highlight.pack.js"></script>
+<script src="/libs/gwm.umd.js"></script>
+<script src='//cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+<script src="/js/js.js"></script>
+<style type="text/css">
+.v * {
+    color: #698fca;
+}
+
+.v .vlist .vcard .vhead .vsys {
+    color: #3a3e4a;
+}
+
+.v .vlist .vcard .vh .vmeta .vat {
+    color: #638fd5;
+}
+
+.v .vlist .vcard .vhead .vnick {
+    color: #6ba1ff;
+}
+
+.v a {
+    color: #8696b1;
+}
+
+.v .vlist .vcard .vhead .vnick:hover {
+    color: #669bfc;
+}
+</style>
+  </body>
+</html>
